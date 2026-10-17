@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#17110d" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="뽁뽁이" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="icon-192.png" type="image/png" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+    <title>뽁뽁이 타이쿤</title>
+  </head>
+  <body>
+    <canvas id="game"></canvas>
+    <button id="mute" aria-label="소리 켜기/끄기">🔊</button>
+
+    <div id="shop">
+      <div class="laptop">
+        <div class="screen">
+          <header>
+            <span class="logo">🛒 뽁팡 쇼핑</span>
+            <span id="shopMoney"></span>
+            <button id="shopClose" aria-label="닫기">✕</button>
+          </header>
+          <div id="shopBody"></div>
+        </div>
+        <div class="hinge"></div>
+      </div>
+    </div>
+
+    <div id="book">
+      <div class="pages">
+        <header>
+          <span>📖 뽁뽁이 수집 도감</span>
+          <b id="bookCount"></b>
+          <button id="bookClose" aria-label="닫기">✕</button>
+        </header>
+        <div id="bookBody"></div>
+      </div>
+    </div>
+
+    <div id="pricing">
+      <div class="card">
+        <div class="title">🔨 경매 시작가 정하기</div>
+        <div class="item">
+          <span id="prIcon"></span>
+          <div><b id="prName"></b><p id="prRarity"></p></div>
+        </div>
+        <div class="range">예상 시세 <b id="prRange"></b></div>
+        <div class="track"><i id="prBand"></i><span id="prMarker"></span></div>
+        <div class="price">
+          <button data-step="-" aria-label="내리기">−</button>
+          <div id="prAsk"></div>
+          <button data-step="+" aria-label="올리기">＋</button>
+        </div>
+        <div class="chips">
+          <button data-r="0.7">급처</button>
+          <button data-r="1">시세대로</button>
+          <button data-r="1.25">조금 욕심</button>
+          <button data-r="1.7">왕창 욕심</button>
+        </div>
+        <p id="prMood"></p>
+        <div class="actions">
+          <button id="prCancel">상자에 다시 넣기</button>
+          <button id="prOk">경매에 올리기!</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="overlay">
+      <div class="card">
+        <div id="ovTitle"></div>
+        <div id="ovBody"></div>
+        <button id="ovButton"></button>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
