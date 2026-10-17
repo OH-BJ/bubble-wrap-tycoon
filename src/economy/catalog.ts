@@ -113,9 +113,9 @@ export const BOXES: Box[] = [
   { id: 'local', name: '동네 택배', cost: 0, items: [1, 1], mult: 1, rarity: { u: 0.15, r: 0.02, l: 0.002 }, color: '#c8955a', tape: '#d9b46a', label: '' },
   { id: 'large', name: '대형 상자', cost: 1_500, items: [1, 2], mult: 8, rarity: { u: 0.22, r: 0.04, l: 0.004 }, color: '#b88550', tape: '#d9b46a', label: 'FRAGILE' },
   { id: 'overseas', name: '해외 직구', cost: 72_000, items: [2, 3], mult: 60, rarity: { u: 0.28, r: 0.08, l: 0.01 }, color: '#a8794a', tape: '#5aa0d9', label: 'AIR MAIL' },
-  { id: 'mystery', name: '미스터리 박스', cost: 1_400_000, items: [2, 3], mult: 400, rarity: { u: 0.32, r: 0.12, l: 0.02 }, color: '#5b3d8a', tape: '#ffcf3f', label: '???' },
-  { id: 'vip', name: 'VIP 금고 상자', cost: 99_000_000, items: [2, 3], mult: 3_000, rarity: { u: 0.34, r: 0.16, l: 0.04 }, color: '#1f4d3a', tape: '#c9a227', label: 'VIP' },
-  { id: 'legend', name: '전설의 상자', cost: 3_200_000_000, items: [3, 4], mult: 25_000, rarity: { u: 0.35, r: 0.2, l: 0.06 }, color: '#2b2b3a', tape: '#ffd700', label: 'LEGEND' },
+  { id: 'mystery', name: '미스터리 박스', cost: 1_400_000, items: [2, 3], mult: 700, rarity: { u: 0.32, r: 0.12, l: 0.02 }, color: '#5b3d8a', tape: '#ffcf3f', label: '???' },
+  { id: 'vip', name: 'VIP 금고 상자', cost: 99_000_000, items: [2, 3], mult: 6_000, rarity: { u: 0.34, r: 0.16, l: 0.04 }, color: '#1f4d3a', tape: '#c9a227', label: 'VIP' },
+  { id: 'legend', name: '전설의 상자', cost: 3_200_000_000, items: [3, 4], mult: 60_000, rarity: { u: 0.35, r: 0.2, l: 0.06 }, color: '#2b2b3a', tape: '#ffd700', label: 'LEGEND' },
 ];
 
 // ---- 상자 속 물건 ----
@@ -315,7 +315,7 @@ export const AUTOMATIONS: LevelDef<AutoId>[] = [
 export const AUTO_IDS = AUTOMATIONS.map((a) => a.id);
 
 // ---- 최종 목표 ----
-export const GOAL = { name: '세계에서 가장 큰 뽁뽁이', cost: 27_000_000_000 };
+export const GOAL = { name: '세계에서 가장 큰 뽁뽁이', cost: 45_000_000_000 };
 
 export type Ladder = 'tool' | 'wrap' | 'box';
 export const LADDERS: Record<Ladder, { cost: number; name: string }[]> = {
