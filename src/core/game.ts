@@ -391,10 +391,16 @@ export class Game {
     const d = s.desk;
     this.deskAge = d ? this.deskAge + dt : 0;
 
-    // 자동 커터: 상자가 자리 잡으면 테이프를 위에서부터 뜯는다
+    // 자동 커터: 상자가 자리 잡으면 테이프를 위에서부터 뜯는다.
+    // 최고 레벨(뜯는 시간 0)은 책상에 닿자마자 한 번에 연다
     const cut = autoLevel(s, 'cutter');
-    if (cut && d && !d.open && this.deskAge > 0.6) {
-      if (this.cutTape(d.tape + dt / AUTO_SPEC.cutTime[cut])) ev.push({ type: 'autoOpened' });
+    const cutTime = AUTO_SPEC.cutTime[cut];
+    if (cut && d && !d.open) {
+      if (cutTime === 0) {
+        if (this.deskAge >= AUTO_SPEC.landTime && this.cutTape(1)) ev.push({ type: 'autoOpened' });
+      } else if (this.deskAge > 0.6 && this.cutTape(d.tape + dt / cutTime)) {
+        ev.push({ type: 'autoOpened' });
+      }
     }
 
     // 정리 로봇팔: 흔한·고급 물건만 시세대로 경매에 올리고, 그다음 뽁뽁이를 펼친다

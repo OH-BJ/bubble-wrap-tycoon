@@ -259,7 +259,9 @@ export type AutoId = 'cutter' | 'conveyor' | 'arm' | 'press';
 /** 레벨별 성능 (0레벨 = 없음) */
 export const AUTO_SPEC = {
   /** 테이프 다 뜯는 데 걸리는 시간 */
-  cutTime: [0, 3, 1.8, 1],
+  cutTime: [0, 3, 1.8, 1, 0],
+  /** 상자가 떨어져서 책상에 닿는 시간 (즉시 개봉 커터는 이때 연다) */
+  landTime: 0.45,
   /** 로봇팔이 물건 하나 옮기는 간격 */
   armInterval: [0, 1.6, 1, 0.55],
   /** 프레스: 초당 횟수, 힘 */
@@ -272,10 +274,14 @@ export const AUTOMATIONS: LevelDef<AutoId>[] = [
     id: 'cutter',
     icon: '✂️',
     name: '자동 커터',
-    max: 3,
-    cost: geo(30_000, 8),
+    max: 4,
+    cost: (l) => [30_000, 240_000, 1_920_000, 300_000_000][l],
     desc: (l) =>
-      l === 0 ? `상자가 오면 로봇이 테이프를 뜯어줌 (${AUTO_SPEC.cutTime[1]}초)` : `테이프 뜯는 시간 ${AUTO_SPEC.cutTime[l]}초 → ${AUTO_SPEC.cutTime[l + 1]}초`,
+      l === 0
+        ? `상자가 오면 로봇이 테이프를 뜯어줌 (${AUTO_SPEC.cutTime[1]}초)`
+        : l === 3
+          ? '⚡ 즉시 개봉: 상자가 책상에 닿자마자 바로 열림!'
+          : `테이프 뜯는 시간 ${AUTO_SPEC.cutTime[l]}초 → ${AUTO_SPEC.cutTime[l + 1]}초`,
   },
   {
     id: 'conveyor',

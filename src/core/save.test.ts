@@ -907,3 +907,36 @@ describe('재질: 말랑한 뽁뽁이 회복', () => {
     expect(game.state.mat!.hp[0]).toBe(WRAPS[2].hp - 1);
   });
 });
+
+describe('자동 커터 즉시 개봉 (Lv4)', () => {
+  /** 상자가 열릴 때까지 걸린 시간 */
+  function openTime(level: number) {
+    const game = fresh();
+    game.state.auto.cutter = level;
+    game.order();
+    let t = 0;
+    while (!game.state.desk!.open && t < 10) {
+      game.update(t, 0.05);
+      t += 0.05;
+    }
+    return t;
+  }
+
+  it('Lv4는 상자가 책상에 닿자마자(0.5초 안에) 열린다', () => {
+    expect(openTime(4)).toBeLessThanOrEqual(0.55);
+  });
+
+  it('Lv3은 그보다 오래 걸린다 (자리 잡고 1초 동안 뜯음)', () => {
+    expect(openTime(3)).toBeGreaterThan(1.5);
+  });
+
+  it('Lv4는 3억원이고, 그 다음은 없다', () => {
+    const game = fresh();
+    game.state.auto.cutter = 3;
+    game.state.money = 300_000_000;
+    expect(game.buyAuto('cutter')).toBe(true);
+    expect(game.state.money).toBe(0);
+    game.state.money = 1e15;
+    expect(game.buyAuto('cutter')).toBe(false);
+  });
+});

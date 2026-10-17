@@ -1,5 +1,5 @@
 import { CAT_SPEED, type Game, type GameEvent } from '../core/game';
-import { AUTOMATIONS, BOXES, DECOR, FINALE, RARITY_NAME, RESEARCH, TOOLS, WRAPS, type Ladder, type WrapStyle } from '../economy/catalog';
+import { AUTO_SPEC, AUTOMATIONS, BOXES, DECOR, FINALE, RARITY_NAME, RESEARCH, TOOLS, WRAPS, type Ladder, type WrapStyle } from '../economy/catalog';
 import type { Sfx } from '../fx/audio';
 import type { Juice } from '../fx/juice';
 import type { Particles } from '../fx/particles';
@@ -30,7 +30,7 @@ import {
 import { cellCenter, center, inRect, itemSlot, queueSlot, sheetLayout, TAPE, VW, WRAP_BUNDLE, ZONES, type SheetLayout } from './layout';
 
 const TAPE_SEGMENTS = 24;
-const DROP_TIME = 0.45;
+const DROP_TIME = AUTO_SPEC.landTime;
 
 type Mode = 'none' | 'tape' | 'pop' | 'item' | 'wrap' | 'finale';
 
@@ -235,6 +235,13 @@ export class DeskScene {
         continue;
       }
       if (e.type === 'autoOpened') {
+        if (AUTO_SPEC.cutTime[this.s.auto.cutter] === 0) {
+          // 즉시 개봉: 테이프를 한 번에 싹둑
+          for (let k = 0; k <= 10; k++) {
+            this.fx.emit(TAPE.x + TAPE.w / 2, TAPE.y + (TAPE.h * k) / 10, 2, { color: '#ffffff', speed: 240, size: 5, shape: 'spark', gravity: 0, life: [0.15, 0.3] });
+          }
+          this.sfx.rip();
+        }
         this.onOpened(this.deskUnseen);
         continue;
       }

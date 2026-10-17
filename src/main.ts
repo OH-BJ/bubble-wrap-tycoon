@@ -118,7 +118,8 @@ const shop = new Shop(
       scene.toast(`${def.icon} ${def.name}을(를) 책상에 놓았어요! ${def.desc}`);
     } else if ('auto' in p) {
       const def = AUTOMATIONS.find((a) => a.id === p.auto)!;
-      scene.toast(`🤖 ${def.icon} ${def.name} ${s.auto[p.auto] > 1 ? `Lv ${s.auto[p.auto]}!` : '설치 완료! 책상 위 스위치로 켜고 끌 수 있어요'}`);
+      if (p.auto === 'cutter' && s.auto.cutter === def.max) scene.toast('⚡ 즉시 개봉 커터! 이제 상자가 오자마자 바로 열려요');
+      else scene.toast(`🤖 ${def.icon} ${def.name} ${s.auto[p.auto] > 1 ? `Lv ${s.auto[p.auto]}!` : '설치 완료! 책상 위 스위치로 켜고 끌 수 있어요'}`);
     } else if ('research' in p && p.research === 'rub') {
       scene.toast('🧤 쓱쓱 장갑 장착! 이제 누른 채로 끌면 줄줄이 터져요');
     } else if ('research' in p) {
