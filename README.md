@@ -2,6 +2,10 @@
 
 책상 위에서 택배를 뜯고, 물건을 경매에 팔고, 뽁뽁이를 터뜨리는 타이쿤 게임. 기획은 [PLAN.md](PLAN.md).
 
+**🎮 플레이: https://oh-bj.github.io/bubble-wrap-tycoon/** (PC 브라우저 권장)
+
+`main` 브랜치에 올리면 테스트 → 빌드 → GitHub Pages 배포가 자동으로 진행된다.
+
 ## 실행
 ```
 npm install      # 처음 한 번
