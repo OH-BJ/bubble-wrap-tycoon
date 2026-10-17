@@ -1,6 +1,7 @@
 import type { GameState } from '../core/state';
 import { CONFIG } from '../config';
 import { RARITY_COLOR, RARITY_NAME } from '../economy/catalog';
+import { auctionRush } from '../economy/rules';
 import { formatWon } from '../ui/format';
 import { drawItem, emoji, itemDef, label } from './draw';
 import { queueSlot, ZONES } from './layout';
@@ -101,6 +102,11 @@ function drawStage(ctx: CanvasRenderingContext2D, s: GameState, v: AuctionView, 
   if (a.war) {
     const flash = 0.5 + Math.sin(time * 14) * 0.5;
     label(ctx, '🔥 입찰 전쟁! 🔥', cx, st.y + 22, 20, `rgba(255,${120 + flash * 100},80,1)`, 900);
+  } else if (s.lots.length > 0) {
+    // 대기열이 쌓여서 경매사가 서두르는 중
+    const rush = auctionRush(s.lots.length);
+    const blink = 0.6 + Math.sin(time * 10) * 0.4;
+    label(ctx, `⚡ 빨리빨리! x${rush.toFixed(1)}`, cx, st.y + 22, 17, `rgba(255,226,122,${blink})`, 900);
   } else {
     label(ctx, '경매 진행 중', cx, st.y + 22, 16, '#e8c9a0', 700);
   }

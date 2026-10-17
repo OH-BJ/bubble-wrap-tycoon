@@ -981,3 +981,28 @@ describe('정리 로봇팔 Lv4·Lv5', () => {
     expect(game.buyAuto('arm')).toBe(false);
   });
 });
+
+describe('경매 빨리빨리 (대기열이 쌓이면 빨라짐)', () => {
+  /** 대기열에 n개가 기다리는 상태에서 시작한 경매의 길이 */
+  function auctionLength(waiting: number, seed = 3) {
+    const game = new Game(newGame(), seeded(seed));
+    game.state.lots = Array.from({ length: waiting + 1 }, () => ({ kind: 'socks', value: 100, lo: 80, hi: 120, ask: 100 }));
+    game.update(0, 0.01);
+    return game.state.auction!.end;
+  }
+
+  it('대기열이 꽉 차면 경매가 훨씬 빨리 끝난다', () => {
+    expect(auctionLength(7)).toBeLessThan(auctionLength(0) / 2.5);
+  });
+
+  it('대기열이 비어 있으면 원래 속도', () => {
+    expect(auctionLength(0)).toBeGreaterThan(1.5);
+  });
+
+  it('빨라져도 낙찰가 규칙은 같다 (시작가 이상)', () => {
+    const game = new Game(newGame(), seeded(5));
+    game.state.lots = Array.from({ length: 8 }, () => ({ kind: 'socks', value: 100, lo: 80, hi: 120, ask: 90 }));
+    game.update(0, 0.01);
+    expect(game.state.auction!.bids.at(-1)!).toBeGreaterThanOrEqual(90);
+  });
+});

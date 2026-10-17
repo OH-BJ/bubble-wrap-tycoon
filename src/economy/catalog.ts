@@ -19,10 +19,10 @@ export const TOOLS: Tool[] = [
   { name: '손가락', icon: '👆', radius: 14, power: 1, cost: 0, desc: '한 알씩 꾹꾹' },
   { name: '손바닥', icon: '🖐️', radius: 36, power: 2, cost: 150, desc: '손바닥으로 팍팍' },
   { name: '롤러', icon: '🧻', radius: 58, power: 3, cost: 5_000, desc: '굴리면 줄줄이 터진다' },
-  { name: '고무망치', icon: '🔨', radius: 85, power: 6, cost: 400_000, desc: '쾅! 단단한 것도 한 방' },
-  { name: '다리미', icon: '♨️', radius: 110, power: 10, cost: 5_400_000, desc: '지나가는 곳은 전부 납작' },
-  { name: '유압 프레스', icon: '🏗️', radius: 140, power: 18, cost: 340_000_000, desc: '쿵! 넓은 판으로 내리찍는다' },
-  { name: '스팀롤러', icon: '🚜', radius: 175, power: 30, cost: 3_300_000_000, desc: '매트 위를 통째로 밀어버린다' },
+  { name: '고무망치', icon: '🔨', radius: 85, power: 6, cost: 360_000, desc: '쾅! 단단한 것도 한 방' },
+  { name: '다리미', icon: '♨️', radius: 110, power: 10, cost: 6_800_000, desc: '지나가는 곳은 전부 납작' },
+  { name: '유압 프레스', icon: '🏗️', radius: 140, power: 18, cost: 540_000_000, desc: '쿵! 넓은 판으로 내리찍는다' },
+  { name: '스팀롤러', icon: '🚜', radius: 175, power: 30, cost: 6_200_000_000, desc: '매트 위를 통째로 밀어버린다' },
 ];
 
 // ---- 뽁뽁이 등급: 값, 단단함, 소리, 생김새, 고유 특징이 다르다 ----
@@ -70,22 +70,22 @@ export const WRAPS: Wrap[] = [
     tint: ['rgba(245,252,255,0.98)', 'rgba(150,215,245,0.7)', 'rgba(230,248,255,0.98)'],
   },
   {
-    id: 'big', name: '대왕 버블', cost: 2_700_000, value: 1_500, cols: 7, rows: 5, hp: 8, dud: 0.03, native: { s: 0.02 }, elastic: true,
+    id: 'big', name: '대왕 버블', cost: 2_600_000, value: 1_500, cols: 7, rows: 5, hp: 8, dud: 0.03, native: { s: 0.02 }, elastic: true,
     trait: '출렁출렁 말랑한 주먹만 한 버블, 쉬면 다시 부풀어요. 터지면 펑! (단단함 8)',
     tint: ['rgba(255,245,255,0.95)', 'rgba(210,110,225,0.62)', 'rgba(250,200,255,0.9)'],
   },
   {
-    id: 'gold', name: '황금 에어캡', cost: 11_000_000, value: 8_000, cols: 11, rows: 8, hp: 12, dud: 0.03, native: { g: 0.08, s: 0.02 },
+    id: 'gold', name: '황금 에어캡', cost: 17_000_000, value: 8_000, cols: 11, rows: 8, hp: 12, dud: 0.03, native: { g: 0.08, s: 0.02 },
     trait: '✨ 황금 뽁뽁이가 원래 잘 나옴. 띠링~ (단단함 12)',
     tint: ['rgba(255,250,220,0.98)', 'rgba(215,160,30,0.75)', 'rgba(255,225,130,0.95)'],
   },
   {
-    id: 'rainbow', name: '무지개 에어캡', cost: 660_000_000, value: 50_000, cols: 11, rows: 9, hp: 16, dud: 0.02, native: { m: 0.03, g: 0.03, s: 0.02 },
+    id: 'rainbow', name: '무지개 에어캡', cost: 800_000_000, value: 50_000, cols: 11, rows: 9, hp: 16, dud: 0.02, native: { m: 0.03, g: 0.03, s: 0.02 },
     trait: '✖️ x2 뽁뽁이가 원래 섞여 있음. 터질 때마다 화음이 울림 (단단함 16)',
     tint: ['rgba(255,255,255,0.98)', 'rgba(255,140,200,0.6)', 'rgba(255,230,250,0.98)'],
   },
   {
-    id: 'diamond', name: '다이아 에어캡', cost: 4_000_000_000, value: 300_000, cols: 12, rows: 9, hp: 25, dud: 0.02, native: { g: 0.03, s: 0.03 },
+    id: 'diamond', name: '다이아 에어캡', cost: 10_000_000_000, value: 300_000, cols: 12, rows: 9, hp: 25, dud: 0.02, native: { g: 0.03, s: 0.03 },
     trait: '쨍그랑 깨지는 보석 버블. 스팀롤러로 밀어야 제맛 (단단함 25)',
     tint: ['rgba(240,255,255,0.98)', 'rgba(110,220,255,0.7)', 'rgba(220,255,255,0.98)'],
   },
@@ -112,10 +112,10 @@ export interface Box {
 export const BOXES: Box[] = [
   { id: 'local', name: '동네 택배', cost: 0, items: [1, 1], mult: 1, rarity: { u: 0.15, r: 0.02, l: 0.002 }, color: '#c8955a', tape: '#d9b46a', label: '' },
   { id: 'large', name: '대형 상자', cost: 1_500, items: [1, 2], mult: 8, rarity: { u: 0.22, r: 0.04, l: 0.004 }, color: '#b88550', tape: '#d9b46a', label: 'FRAGILE' },
-  { id: 'overseas', name: '해외 직구', cost: 72_000, items: [2, 3], mult: 60, rarity: { u: 0.28, r: 0.08, l: 0.01 }, color: '#a8794a', tape: '#5aa0d9', label: 'AIR MAIL' },
-  { id: 'mystery', name: '미스터리 박스', cost: 1_400_000, items: [2, 3], mult: 700, rarity: { u: 0.32, r: 0.12, l: 0.02 }, color: '#5b3d8a', tape: '#ffcf3f', label: '???' },
-  { id: 'vip', name: 'VIP 금고 상자', cost: 99_000_000, items: [2, 3], mult: 6_000, rarity: { u: 0.34, r: 0.16, l: 0.04 }, color: '#1f4d3a', tape: '#c9a227', label: 'VIP' },
-  { id: 'legend', name: '전설의 상자', cost: 3_200_000_000, items: [3, 4], mult: 60_000, rarity: { u: 0.35, r: 0.2, l: 0.06 }, color: '#2b2b3a', tape: '#ffd700', label: 'LEGEND' },
+  { id: 'overseas', name: '해외 직구', cost: 79_000, items: [2, 3], mult: 60, rarity: { u: 0.28, r: 0.08, l: 0.01 }, color: '#a8794a', tape: '#5aa0d9', label: 'AIR MAIL' },
+  { id: 'mystery', name: '미스터리 박스', cost: 1_200_000, items: [2, 3], mult: 700, rarity: { u: 0.32, r: 0.12, l: 0.02 }, color: '#5b3d8a', tape: '#ffcf3f', label: '???' },
+  { id: 'vip', name: 'VIP 금고 상자', cost: 210_000_000, items: [2, 3], mult: 6_000, rarity: { u: 0.34, r: 0.16, l: 0.04 }, color: '#1f4d3a', tape: '#c9a227', label: 'VIP' },
+  { id: 'legend', name: '전설의 상자', cost: 4_500_000_000, items: [3, 4], mult: 60_000, rarity: { u: 0.35, r: 0.2, l: 0.06 }, color: '#2b2b3a', tape: '#ffd700', label: 'LEGEND' },
 ];
 
 // ---- 상자 속 물건 ----
@@ -322,7 +322,7 @@ export const AUTOMATIONS: LevelDef<AutoId>[] = [
 export const AUTO_IDS = AUTOMATIONS.map((a) => a.id);
 
 // ---- 최종 목표 ----
-export const GOAL = { name: '세계에서 가장 큰 뽁뽁이', cost: 45_000_000_000 };
+export const GOAL = { name: '세계에서 가장 큰 뽁뽁이', cost: 100_000_000_000 };
 
 export type Ladder = 'tool' | 'wrap' | 'box';
 export const LADDERS: Record<Ladder, { cost: number; name: string }[]> = {

@@ -1,6 +1,6 @@
 import { CONFIG } from '../config';
 import { AUTO_SPEC, BOXES, DECOR, FINALE, GOAL, ITEMS, RARITY_VALUE, WRAPS, type AutoId, type DecorId, type ItemDef, type Ladder, type Rarity, type ResearchId } from '../economy/catalog';
-import { appraiseWidth, auctionMult, auctionTuning, autoCost, autoLevel, comboMax, comboWindow, nextCost, perfectRate, popMult, researchCost, sheetChances } from '../economy/rules';
+import { appraiseWidth, auctionMult, auctionRush, auctionTuning, autoCost, autoLevel, comboMax, comboWindow, nextCost, perfectRate, popMult, researchCost, sheetChances } from '../economy/rules';
 import type { Kind, PoppableKind } from '../sheet/bubble';
 import { createSheet, isSheetDone, neighbors } from '../sheet/sheet';
 import type { AuctionState, GameState, ListedLot, Lot, Rng, SheetState } from './state';
@@ -150,6 +150,8 @@ export class Game {
    */
   private startAuction(lot: ListedLot): AuctionState {
     const tune = auctionTuning(this.state);
+    // 대기열이 쌓이면 경매사가 빨라진다 (물건이 밀리지 않게)
+    const speed = tune.speed * auctionRush(this.state.lots.length);
     const r = lot.ask / lot.value;
     const pSell = r <= 1 ? 1 : Math.max(0.03, Math.min(1, 1 - (r - 1) * 0.9 + tune.greed));
     // 필드 순서는 세이브 검사 결과와 같게 (껐다 켜도 세이브가 한 글자도 안 바뀌게)
@@ -168,8 +170,8 @@ export class Game {
     if (this.rng() >= pSell) {
       // 아무도 안 삼 → 한참 뒤 떨이 손님 한 명
       const lowball = Math.max(1, Math.round(lot.value * (0.3 + this.rng() * 0.3)));
-      const at = 2.6 / tune.speed;
-      return make(true, [lowball], [at], at + 1.1, false);
+      const at = 2.6 / speed;
+      return make(true, [lowball], [at], at + 1.1 / speed, false);
     }
 
     let final = r < 1 ? Math.max(lot.ask, lot.value * (0.85 + this.rng() * 0.3)) : lot.ask * (1 + this.rng() * 0.25);
@@ -188,12 +190,12 @@ export class Game {
       bids.push(Math.max(Math.round(ideal), (bids[i - 1] ?? 0) + 1));
     }
     const times: number[] = [];
-    let at = 0.4;
+    let at = 0.4 / speed;
     for (let i = 0; i < count; i++) {
-      at += (0.4 + this.rng() * 0.5) / tune.speed;
+      at += (0.4 + this.rng() * 0.5) / speed;
       times.push(at);
     }
-    return make(false, bids, times, at + 1.1, war);
+    return make(false, bids, times, at + 1.1 / speed, war);
   }
 
   /** 지금까지 나온 가장 높은 입찰가 (아직 없으면 0) */

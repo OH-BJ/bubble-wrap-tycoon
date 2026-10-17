@@ -85,3 +85,8 @@ export function auctionMult(state: GameState): number {
 export function comboWindow(state: GameState): number {
   return CONFIG.combo.window + (state.decor.radio ? 0.25 : 0);
 }
+
+/** 경매 대기열이 쌓였을 때 빨라지는 배율 (대기 1개당 +35%, 최대 3.5배) */
+export function auctionRush(waiting: number): number {
+  return Math.min(3.5, 1 + 0.35 * waiting);
+}
