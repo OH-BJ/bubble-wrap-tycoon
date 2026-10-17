@@ -403,12 +403,12 @@ export class Game {
       }
     }
 
-    // 정리 로봇팔: 흔한·고급 물건만 시세대로 경매에 올리고, 그다음 뽁뽁이를 펼친다
+    // 정리 로봇팔: 레벨에 맞는 희귀도의 물건만 시세대로 경매에 올리고, 그다음 뽁뽁이를 펼친다
     const arm = autoLevel(s, 'arm');
     if (arm && d?.open) {
       this.armTimer += dt;
       if (this.armTimer >= AUTO_SPEC.armInterval[arm]) {
-        const i = d.items.findIndex((it) => itemDef(it.kind).rarity === 'c' || itemDef(it.kind).rarity === 'u');
+        const i = d.items.findIndex((it) => AUTO_SPEC.armRarities[arm].includes(itemDef(it.kind).rarity));
         if (i >= 0 && this.canList()) {
           const lot = d.items[i];
           this.listItem(i, Math.round((lot.lo + lot.hi) / 2));

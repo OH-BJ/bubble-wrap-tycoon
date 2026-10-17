@@ -940,3 +940,44 @@ describe('자동 커터 즉시 개봉 (Lv4)', () => {
     expect(game.buyAuto('cutter')).toBe(false);
   });
 });
+
+describe('정리 로봇팔 Lv4·Lv5', () => {
+  /** 흔함·고급·희귀·전설이 하나씩 든 상자에서 로봇팔이 무엇을 남기는지 */
+  function leftover(level: number) {
+    const game = fresh();
+    game.state.auto.arm = level;
+    game.order();
+    game.cutTape(1);
+    game.state.desk!.items = [
+      { kind: 'socks', value: 10, lo: 8, hi: 12 },
+      { kind: 'watch', value: 40, lo: 30, hi: 50 },
+      { kind: 'phone', value: 150, lo: 120, hi: 180 },
+      { kind: 'crown', value: 1000, lo: 800, hi: 1200 },
+    ];
+    for (let t = 0; t < 10; t += 0.05) game.update(t, 0.05);
+    return game.state.desk?.items.map((i) => i.kind) ?? [];
+  }
+
+  it('Lv3까지는 희귀·전설을 손으로 남긴다', () => {
+    expect(leftover(3)).toEqual(['phone', 'crown']);
+  });
+
+  it('Lv4는 희귀도 옮기고 전설만 남긴다', () => {
+    expect(leftover(4)).toEqual(['crown']);
+  });
+
+  it('Lv5는 전설까지 전부 옮긴다', () => {
+    expect(leftover(5)).toEqual([]);
+  });
+
+  it('Lv4는 8억, Lv5는 50억이고 그 다음은 없다', () => {
+    const game = fresh();
+    game.state.auto.arm = 3;
+    game.state.money = 800_000_000 + 5_000_000_000;
+    expect(game.buyAuto('arm')).toBe(true);
+    expect(game.buyAuto('arm')).toBe(true);
+    expect(game.state.money).toBe(0);
+    game.state.money = 1e15;
+    expect(game.buyAuto('arm')).toBe(false);
+  });
+});

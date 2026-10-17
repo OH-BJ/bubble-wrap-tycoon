@@ -263,7 +263,9 @@ export const AUTO_SPEC = {
   /** 상자가 떨어져서 책상에 닿는 시간 (즉시 개봉 커터는 이때 연다) */
   landTime: 0.45,
   /** 로봇팔이 물건 하나 옮기는 간격 */
-  armInterval: [0, 1.6, 1, 0.55],
+  armInterval: [0, 1.6, 1, 0.55, 0.55, 0.55],
+  /** 로봇팔이 옮겨주는 희귀도 (레벨별) */
+  armRarities: ['', 'cu', 'cu', 'cu', 'cur', 'curl'],
   /** 프레스: 초당 횟수, 힘 */
   pressRate: [0, 0.6, 1, 1.5, 2.2, 3.2],
   pressPower: [0, 4, 8, 14, 22, 32],
@@ -295,11 +297,16 @@ export const AUTOMATIONS: LevelDef<AutoId>[] = [
     id: 'arm',
     icon: '🦾',
     name: '정리 로봇팔',
-    max: 3,
-    cost: geo(2_000_000, 8),
+    max: 5,
+    cost: (l) => [2_000_000, 16_000_000, 128_000_000, 800_000_000, 5_000_000_000][l],
     desc: (l) =>
-      (l === 0 ? '흔한·고급 물건을 시세대로 경매에 올리고 뽁뽁이를 펼쳐줌. ' : `더 빨라짐 (${AUTO_SPEC.armInterval[l]}초 → ${AUTO_SPEC.armInterval[l + 1]}초). `) +
-      '희귀 이상은 손으로!',
+      l === 0
+        ? '흔한·고급 물건을 시세대로 경매에 올리고 뽁뽁이를 펼쳐줌. 희귀 이상은 손으로!'
+        : l === 3
+          ? '🔷 희귀 물건도 시세대로 경매에 올려줌 (전설은 아직 손으로)'
+          : l === 4
+            ? '🌟 전설 물건까지 전부 자동으로 경매에 올려줌'
+            : `더 빨라짐 (${AUTO_SPEC.armInterval[l]}초 → ${AUTO_SPEC.armInterval[l + 1]}초). 희귀 이상은 손으로!`,
   },
   {
     id: 'press',

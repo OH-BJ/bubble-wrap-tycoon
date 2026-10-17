@@ -119,6 +119,8 @@ const shop = new Shop(
     } else if ('auto' in p) {
       const def = AUTOMATIONS.find((a) => a.id === p.auto)!;
       if (p.auto === 'cutter' && s.auto.cutter === def.max) scene.toast('⚡ 즉시 개봉 커터! 이제 상자가 오자마자 바로 열려요');
+      else if (p.auto === 'arm' && s.auto.arm === 4) scene.toast('🦾 로봇팔 Lv4! 이제 희귀 물건도 알아서 경매에 올려요');
+      else if (p.auto === 'arm' && s.auto.arm === 5) scene.toast('🦾 로봇팔 Lv5! 전설 물건까지 전부 알아서 경매에 올려요');
       else scene.toast(`🤖 ${def.icon} ${def.name} ${s.auto[p.auto] > 1 ? `Lv ${s.auto[p.auto]}!` : '설치 완료! 책상 위 스위치로 켜고 끌 수 있어요'}`);
     } else if ('research' in p && p.research === 'rub') {
       scene.toast('🧤 쓱쓱 장갑 장착! 이제 누른 채로 끌면 줄줄이 터져요');

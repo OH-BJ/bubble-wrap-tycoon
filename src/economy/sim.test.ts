@@ -6,7 +6,7 @@ import { describe, it } from 'vitest';
 import { Game, itemDef } from '../core/game';
 import { newGame } from '../core/save';
 import { formatShort } from '../ui/format';
-import { AUTOMATIONS, BOXES, DECOR, GOAL, RESEARCH, TOOLS, WRAPS, type Ladder } from './catalog';
+import { AUTO_SPEC, AUTOMATIONS, BOXES, DECOR, GOAL, RESEARCH, TOOLS, WRAPS, type Ladder } from './catalog';
 import { autoCost, nextCost, researchCost } from './rules';
 
 // 사람이 하는 데 걸리는 시간 (초, 대략)
@@ -74,7 +74,7 @@ export function run(seed: number, limit = 5 * 3600) {
     }
     if (d?.open && game.canList()) {
       // 로봇팔이 있으면 희귀 이상만 손으로
-      const i = d.items.findIndex((it) => !auto('arm') || 'rl'.includes(itemDef(it.kind).rarity));
+      const i = d.items.findIndex((it) => !AUTO_SPEC.armRarities[s.auto.arm].includes(itemDef(it.kind).rarity));
       if (i >= 0) {
         const lot = d.items[i];
         game.listItem(i, Math.round(((lot.lo + lot.hi) / 2) * 1.15));
