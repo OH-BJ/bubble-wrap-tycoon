@@ -1006,3 +1006,39 @@ describe('경매 빨리빨리 (대기열이 쌓이면 빨라짐)', () => {
     expect(game.state.auction!.bids.at(-1)!).toBeGreaterThanOrEqual(90);
   });
 });
+
+describe('황금 프레스 (자동 프레스 Lv6)', () => {
+  function pressed(level: number) {
+    const game = fresh();
+    game.state.auto.press = level;
+    readyToPop(game);
+    const s = game.state.mat!;
+    s.cells = s.cells.map((_, i) => (i % 4 === 0 ? 'g' : 'n'));
+    s.popped = s.popped.map(() => 0);
+    s.hp = s.hp.map(() => 1);
+    for (let t = 0; t < 60; t += 0.05) game.update(t, 0.05);
+    return { game, s };
+  }
+
+  it('Lv5까지는 황금을 남긴다', () => {
+    const { s } = pressed(5);
+    s.cells.forEach((k, i) => k === 'g' && expect(s.popped[i]).toBe(0));
+    expect(s.cleared).toBe(false);
+  });
+
+  it('Lv6은 황금까지 터뜨려서 시트를 다 비운다 (콤보는 안 올림)', () => {
+    const { game, s } = pressed(6);
+    expect(s.cleared).toBe(true);
+    expect(game.combo).toBe(0);
+  });
+
+  it('Lv6은 80억이고 그 다음은 없다', () => {
+    const game = fresh();
+    game.state.auto.press = 5;
+    game.state.money = 8_000_000_000;
+    expect(game.buyAuto('press')).toBe(true);
+    expect(game.state.money).toBe(0);
+    game.state.money = 1e15;
+    expect(game.buyAuto('press')).toBe(false);
+  });
+});

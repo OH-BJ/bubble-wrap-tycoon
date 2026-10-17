@@ -267,8 +267,10 @@ export const AUTO_SPEC = {
   /** 로봇팔이 옮겨주는 희귀도 (레벨별) */
   armRarities: ['', 'cu', 'cu', 'cu', 'cur', 'curl'],
   /** 프레스: 초당 횟수, 힘 */
-  pressRate: [0, 0.6, 1, 1.5, 2.2, 3.2],
-  pressPower: [0, 4, 8, 14, 22, 32],
+  pressRate: [0, 0.6, 1, 1.5, 2.2, 3.2, 3.2],
+  pressPower: [0, 4, 8, 14, 22, 32, 32],
+  /** 이 레벨부터 프레스가 황금도 내리찍는다 */
+  pressGoldLevel: 6,
 };
 
 export const AUTOMATIONS: LevelDef<AutoId>[] = [
@@ -312,10 +314,12 @@ export const AUTOMATIONS: LevelDef<AutoId>[] = [
     id: 'press',
     icon: '🏭',
     name: '자동 프레스',
-    max: 5,
-    cost: geo(5_000_000, 5),
+    max: 6,
+    cost: (l) => [5_000_000, 25_000_000, 125_000_000, 625_000_000, 3_125_000_000, 8_000_000_000][l],
     desc: (l) =>
-      `3x3을 쾅! 초당 ${AUTO_SPEC.pressRate[l]}회 → ${AUTO_SPEC.pressRate[l + 1]}회, 힘 ${AUTO_SPEC.pressPower[l]} → ${AUTO_SPEC.pressPower[l + 1]}. 황금은 손으로!`,
+      l === 5
+        ? '✨ 황금 프레스: 황금 뽁뽁이도 쾅! (콤보 배수는 손으로 터뜨릴 때만)'
+        : `3x3을 쾅! 초당 ${AUTO_SPEC.pressRate[l]}회 → ${AUTO_SPEC.pressRate[l + 1]}회, 힘 ${AUTO_SPEC.pressPower[l]} → ${AUTO_SPEC.pressPower[l + 1]}. 황금은 손으로!`,
   },
 ];
 

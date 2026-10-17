@@ -426,13 +426,14 @@ export class Game {
       this.armTimer = 0;
     }
 
-    // 자동 프레스: 3x3을 내리찍는다. 황금은 건드리지 않음 (손으로!)
+    // 자동 프레스: 3x3을 내리찍는다. 황금은 황금 프레스(최고 레벨)부터
     const press = autoLevel(s, 'press');
     const m = s.mat;
     if (press && m && !m.cleared) {
       this.pressAcc = Math.min(this.pressAcc + dt * AUTO_SPEC.pressRate[press], 3);
       while (this.pressAcc >= 1 && !m.cleared) {
-        const targets = m.popped.flatMap((p, i) => (!p && m.cells[i] !== 'g' ? [i] : []));
+        const goldOk = press >= AUTO_SPEC.pressGoldLevel;
+        const targets = m.popped.flatMap((p, i) => (!p && (goldOk || m.cells[i] !== 'g') ? [i] : []));
         if (!targets.length) {
           this.pressAcc = 0;
           break;
@@ -441,7 +442,7 @@ export class Game {
         const c = targets[Math.floor(this.rng() * targets.length)];
         ev.push({ type: 'press', index: c });
         for (const i of [c, ...neighbors(m, c, 1)]) {
-          if (m.cells[i] !== 'g') ev.push(...this.hit(i, AUTO_SPEC.pressPower[press], now, true));
+          if (goldOk || m.cells[i] !== 'g') ev.push(...this.hit(i, AUTO_SPEC.pressPower[press], now, true));
         }
       }
     } else {
